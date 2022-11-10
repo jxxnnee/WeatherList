@@ -6,5 +6,7 @@ target 'WeatherList' do
   use_frameworks!
 
   # Pods for WeatherList
-
+	
+	pod 'SnapKit', '~> 5.6.0'
+	pod 'Alamofire'
 end
