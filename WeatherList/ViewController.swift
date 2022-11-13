@@ -14,9 +14,26 @@ class ViewController: UIViewController {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.register(WeatherListCell.self)
         tableView.backgroundColor = .black
+        tableView.allowsSelection = false
         
         return tableView
     }()
+    
+    fileprivate var cities: [String] = ["Seoul", "London", "Chicago"]
+    fileprivate var data: [String: [String: String]] = [
+        "Seoul": [
+            "lat": "37.532600",
+            "lon": "127.024612"
+        ],
+        "London": [
+            "lat": "51.509865",
+            "lon": "-0.118092"
+        ],
+        "Chicago": [
+            "lat": "41.881832",
+            "lon": "-87.623177"
+        ]
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +42,11 @@ class ViewController: UIViewController {
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.setViewLayout()
+        
+        let london = self.cities[1]
+        ApiClient.default.getFiveDaysWeather(country: london) {
+            
+        }
     }
 }
 
@@ -36,11 +58,18 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         return 5
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: WeatherListCell = tableView.dequeueReusableCell(for: indexPath)
         
-        
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return self.cities[section]
     }
 }
 
