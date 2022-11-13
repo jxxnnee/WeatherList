@@ -15,6 +15,7 @@ class ViewController: UIViewController {
         tableView.register(WeatherListCell.self)
         tableView.backgroundColor = .black
         tableView.allowsSelection = false
+        tableView.rowHeight = UITableView.automaticDimension
         
         return tableView
     }()
@@ -28,7 +29,6 @@ class ViewController: UIViewController {
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        self.setViewLayout()
         
         let dispatchQueue = DispatchQueue(label: "io.WeatherList.ApiTask.bg")
         let group = DispatchGroup()
@@ -36,7 +36,7 @@ class ViewController: UIViewController {
         
         for city in self.cities {
             dispatchQueue.async(group: group) {
-                ApiClient.default.getFiveDaysWeather(country: city) { res in
+                ApiClient.default.getFiveDaysWeather(country: city) { [weak self] res in
                     switch res {
                     case .success(let data):
                         print(city)
@@ -54,16 +54,16 @@ class ViewController: UIViewController {
                             
                             /// Dictionary에 이미 해당 도시에 대한 List가 존재할 경우
                             /// 해당 List에 더해서 도시에 대한 List를 Update 해준다.
-                            if let item = self.data[city] {
+                            if let item = self?.data[city] {
                                 var temp = item
                                 temp.append(weather)
                                 
-                                self.data[city] = temp
+                                self?.data[city] = temp
                             }
                             /// 해당 도시에 대한 List가 존재하지 않는 경우
                             /// 새로운 List를 만들어서 추가해준다.
                             else {
-                                self.data[city] = [weather]
+                                self?.data[city] = [weather]
                             }
                         }
                     case .failure(let err):
@@ -77,8 +77,8 @@ class ViewController: UIViewController {
             }
         }
         
-        group.notify(queue: .main) {
-            print("Data: ", self.data)
+        group.notify(queue: .main) { [weak self] in
+            self?.setViewLayout()
         }
     }
 }
@@ -100,6 +100,17 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: WeatherListCell = tableView.dequeueReusableCell(for: indexPath)
+        
+        let city = self.cities[indexPath.section]
+        guard let itemList = self.data[city] else { return cell }
+        let item = itemList[indexPath.row]
+        let weather = item.weather[0]
+        
+        cell.today = item.date
+        cell.icon = weather.icon
+        cell.weather = weather.main
+        cell.min = item.main.min
+        cell.max = item.main.max
         
         return cell
     }

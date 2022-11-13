@@ -9,5 +9,6 @@ target 'WeatherList' do
 
 	pod 'SnapKit'
 	pod 'Alamofire'
+	pod 'Kingfisher', '~> 7.0'
 
 end
