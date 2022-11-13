@@ -48,7 +48,8 @@ class WeatherListCell: UITableViewCell {
     
     public var max: Float = 0.0 {
         didSet {
-            self.maxLabel.text = "Max: \(self.max)°C"
+            let int = Int(round(self.max))
+            self.maxLabel.text = "Max: \(int)°C"
         }
     }
     fileprivate var maxLabel: UILabel = {
@@ -61,7 +62,8 @@ class WeatherListCell: UITableViewCell {
     
     public var min: Float = 0.0 {
         didSet {
-            self.minLabel.text = "Min: \(self.min)°C"
+            let int = Int(round(self.min))
+            self.minLabel.text = "Min: \(int)°C"
         }
     }
     fileprivate var minLabel: UILabel = {
