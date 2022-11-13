@@ -8,14 +8,6 @@
 import UIKit
 
 class WeatherListCell: UITableViewCell {
-    enum Weather {
-        case clear
-        case heavyCloud
-        case lightCloud
-        case heavyRain
-        case LightRain
-    }
-    
     public var today: String = "" {
         didSet {
             self.todayLabel.text = today

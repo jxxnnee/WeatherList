@@ -15,6 +15,7 @@
 		8753BD4E291D0B5800ABC958 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8753BD4C291D0B5800ABC958 /* LaunchScreen.storyboard */; };
 		87ACD7B329206EA9009A42D2 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87ACD7B229206EA9009A42D2 /* ApiClient.swift */; };
 		87ACD7B529207CE2009A42D2 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87ACD7B429207CE2009A42D2 /* Model.swift */; };
+		87ACD7B7292096F2009A42D2 /* Date+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87ACD7B6292096F2009A42D2 /* Date+Ex.swift */; };
 		87D55761291D22BD0046840E /* Pods_WeatherList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD226813BD67E6F17C18339F /* Pods_WeatherList.framework */; };
 		87D55762291D22BD0046840E /* Pods_WeatherList.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BD226813BD67E6F17C18339F /* Pods_WeatherList.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		87D5576B291D26990046840E /* UITableView+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D5576A291D26990046840E /* UITableView+Ex.swift */; };
@@ -48,6 +49,7 @@
 		8753BD4F291D0B5800ABC958 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		87ACD7B229206EA9009A42D2 /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
 		87ACD7B429207CE2009A42D2 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		87ACD7B6292096F2009A42D2 /* Date+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ex.swift"; sourceTree = "<group>"; };
 		87D55764291D22D60046840E /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		87D55767291D22D90046840E /* SnapKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SnapKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		87D5576A291D26990046840E /* UITableView+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Ex.swift"; sourceTree = "<group>"; };
@@ -101,10 +103,11 @@
 				8753BD41291D0B5600ABC958 /* AppDelegate.swift */,
 				8753BD43291D0B5600ABC958 /* SceneDelegate.swift */,
 				8753BD45291D0B5600ABC958 /* ViewController.swift */,
-				87D5576A291D26990046840E /* UITableView+Ex.swift */,
 				87D5576C291D27380046840E /* WeatherListCell.swift */,
 				87ACD7B429207CE2009A42D2 /* Model.swift */,
 				87ACD7B229206EA9009A42D2 /* ApiClient.swift */,
+				87D5576A291D26990046840E /* UITableView+Ex.swift */,
+				87ACD7B6292096F2009A42D2 /* Date+Ex.swift */,
 				8753BD47291D0B5600ABC958 /* Main.storyboard */,
 				8753BD4A291D0B5800ABC958 /* Assets.xcassets */,
 				8753BD4C291D0B5800ABC958 /* LaunchScreen.storyboard */,
@@ -244,6 +247,7 @@
 				8753BD42291D0B5600ABC958 /* AppDelegate.swift in Sources */,
 				8753BD44291D0B5600ABC958 /* SceneDelegate.swift in Sources */,
 				87D5576D291D27380046840E /* WeatherListCell.swift in Sources */,
+				87ACD7B7292096F2009A42D2 /* Date+Ex.swift in Sources */,
 				87ACD7B329206EA9009A42D2 /* ApiClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

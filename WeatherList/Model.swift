@@ -68,9 +68,7 @@ struct List: Codable {
     var clouds: Clouds
     var wind: Wind
     var visibility: Int
-    var pop: Int
-    var rain: Rain
-    var snow : Snow
+    var pop: Float
     var sys: Sys
     var date: String
     
@@ -83,8 +81,6 @@ struct List: Codable {
         case wind = "wind"
         case visibility = "visibility"
         case pop = "pop"
-        case rain = "rain"
-        case snow = "snow"
         case sys = "sys"
         case date = "dt_txt"
     }
@@ -96,9 +92,7 @@ struct List: Codable {
         self.clouds = Clouds()
         self.wind = Wind()
         self.visibility = 0
-        self.pop = 0
-        self.rain = Rain()
-        self.snow = Snow()
+        self.pop = 0.0
         self.sys = Sys()
         self.date = ""
     }

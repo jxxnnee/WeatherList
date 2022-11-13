@@ -20,20 +20,7 @@ class ViewController: UIViewController {
     }()
     
     fileprivate var cities: [String] = ["Seoul", "London", "Chicago"]
-    fileprivate var data: [String: [String: String]] = [
-        "Seoul": [
-            "lat": "37.532600",
-            "lon": "127.024612"
-        ],
-        "London": [
-            "lat": "51.509865",
-            "lon": "-0.118092"
-        ],
-        "Chicago": [
-            "lat": "41.881832",
-            "lon": "-87.623177"
-        ]
-    ]
+    fileprivate var data: [String: [List]] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,9 +30,55 @@ class ViewController: UIViewController {
         self.tableView.dataSource = self
         self.setViewLayout()
         
-        let london = self.cities[1]
-        ApiClient.default.getFiveDaysWeather(country: london) {
-            
+        let dispatchQueue = DispatchQueue(label: "io.WeatherList.ApiTask.bg")
+        let group = DispatchGroup()
+        let semaphore = DispatchSemaphore(value: 0)
+        
+        for city in self.cities {
+            dispatchQueue.async(group: group) {
+                ApiClient.default.getFiveDaysWeather(country: city) { res in
+                    switch res {
+                    case .success(let data):
+                        print(city)
+                        
+                        /// 현재 부터 5일 후 까지
+                        for value in 0 ... 5 {
+                            
+                            /// 현재 날짜에 더해서 몇일 후의 날짜를 가져온다.
+                            let today = Date()
+                            guard let date = Calendar.current.date(byAdding: .day, value: value, to: today) else { continue }
+                            
+                            /// 날씨 리스트에 해당 날짜의 첫번째 아이템을 가져온다.
+                            /// 각 아이템이 세시간 단위이기 때문에 모든 아이템을 사용 할 필요가 없다.
+                            guard let weather = data.list.first(where: { $0.date.toDate().day == date.day }) else { continue }
+                            
+                            /// Dictionary에 이미 해당 도시에 대한 List가 존재할 경우
+                            /// 해당 List에 더해서 도시에 대한 List를 Update 해준다.
+                            if let item = self.data[city] {
+                                var temp = item
+                                temp.append(weather)
+                                
+                                self.data[city] = temp
+                            }
+                            /// 해당 도시에 대한 List가 존재하지 않는 경우
+                            /// 새로운 List를 만들어서 추가해준다.
+                            else {
+                                self.data[city] = [weather]
+                            }
+                        }
+                    case .failure(let err):
+                        print("Error: ", err)
+                    }
+                    
+                    semaphore.signal()
+                }
+                
+                semaphore.wait()
+            }
+        }
+        
+        group.notify(queue: .main) {
+            print("Data: ", self.data)
         }
     }
 }
@@ -55,11 +88,14 @@ class ViewController: UIViewController {
 // MARK: TableView Delegate
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        let city = self.cities[0]
+        let count = self.data[city]?.count ?? 0
+        
+        return count
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return self.cities.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

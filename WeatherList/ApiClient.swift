@@ -10,28 +10,15 @@ import Alamofire
 
 struct ApiClient {
     static var `default` = ApiClient()
+    typealias ApiResult = (Result<FiveDays, AFError>) -> Void
     
-    func getFiveDaysWeather(country: String, completionHandler: @escaping () -> Void) {
+    func getFiveDaysWeather(country: String, completionHandler: @escaping ApiResult) {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        
         AF.request(Endpoint.requestGetFiveDaysWeather(country: country))
-            .responseString { res in
-                switch res.result {
-                case .success(let str):
-                    print(str)
-                case .failure(let err):
-                    print("ERROR: ", err.errorDescription)
-                }
-            }
-    }
-    
-    func getCurrentWeather(country: String, completionHandler: @escaping () -> Void) {
-        AF.request(Endpoint.requestGetCurrentWeather(country: country))
-            .responseString { res in
-                switch res.result {
-                case .success(let str):
-                    print(str)
-                case .failure(let err):
-                    print("ERROR: ", err.errorDescription)
-                }
+            .responseDecodable(of: FiveDays.self, decoder: decoder) { res in
+                completionHandler(res.result)
             }
     }
 }
